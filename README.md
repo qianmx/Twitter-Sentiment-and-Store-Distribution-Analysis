@@ -1,2 +1,3 @@
 # Sentiment-and-Store-Distribution-Analysis-Using-Twitter-API
-Pulling data from (open) REST APIs &amp; Extracting data from web pages
+Key word: Pulling data from (open) REST APIs; Extracting data from web pages; Sentiment analysis
+
