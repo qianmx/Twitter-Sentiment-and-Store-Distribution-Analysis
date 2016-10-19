@@ -2,10 +2,10 @@
 Key word: REST API; Web Scraping; Sentiment analysi;Visualization
 
 This project developed a framework that conducted the following steps:
-##Extract tweets related to a certian company/brand from Twitter; 
-##Scrape store distribution data from the company's official website;
-##Analyze people’s sentiment towards certain brands/companies across 50 states in the US;
-##Visualize sentiment score and store numbers in each state and compare the distribution.
+Markup : *Extract tweets related to a certian company/brand from Twitter; 
+         *Scrape store distribution data from the company's official website;
+         *Analyze people’s sentiment towards certain brands/companies across 50 states in the US;
+         *Visualize sentiment score and store numbers in each state and compare the distribution.
 
 This framework can help companies understand people’s feeling about the brand, determine their expansion strategy across the US, as well as assess their current store distribution. I used Nike as an example in the code and analyzed its store distribution strategy. However, it can be customoized to any other brands/companies.
 
