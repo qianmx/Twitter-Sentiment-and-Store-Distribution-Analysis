@@ -1,7 +1,6 @@
 # Store-Distribution-Analysis-Using-Twitter-API
 **Key word: REST API, Web Scraping, Sentiment analysis, Visualization**
 
-This project developed a framework that conducts the following steps:
 * Extract tweets related to a certain company/brand from Twitter; 
 * Scrape store distribution data from the company's official website;
 * Analyze people’s sentiment towards certain brands/companies across 50 states in the US;
