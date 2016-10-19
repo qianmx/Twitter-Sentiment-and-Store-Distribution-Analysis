@@ -11,9 +11,56 @@ import pandas as pd
 KEY = sys.argv[1]
 SECRET = sys.argv[2]
 
-
 auth = tweepy.AppAuthHandler(KEY, SECRET)
 api = tweepy.API(auth, wait_on_rate_limit= True, wait_on_rate_limit_notify= True)
+
+
+def cleanse(text):
+    """
+    Removes punctuation special characters and links.
+    """
+    text = text.lower()
+    nonalpha = re.compile('[' + string.punctuation + '0-9\\r\\t\\n' + ']')
+    no_links = re.sub('http[\S]+|www[\S]+', ' ', text)
+    text = re.sub(nonalpha, ' ', no_links)
+    text = re.sub('[ ]+', ' ', text)
+
+    return text
+
+
+def get_tweets(search_term, max_tweets):
+    calls = 0
+    tweets = api.search(q=search_term, lang='en', count=100, geocode="38.134557,-96.328125,2508km")
+    calls += 1
+    tweet_ids = [tweet.id for tweet in tweets]
+    state_dict,tweet_ids, count = tweet_state_sentiment(tweet_ids, tweets)
+    min_id = min(tweet_ids)
+
+    while count < max_tweets:
+        tweets = api.search(q=search_term, lang='en', count=100, max_id=min_id-1, geocode="38.134557,-96.328125,2508km")
+        calls += 1
+        # Grabbing Information from tweets
+        state_dict, tweet_ids, count = tweet_state_sentiment(tweet_ids, tweets, state_dict, count)
+        print 'Tweets: %d, Tweet IDs: %d, Queries: %d' % (count, len(tweet_ids), calls)
+        min_id = min(tweet_ids)
+
+    return state_dict
+
+
+def tweet_state_sentiment(tweet_ids, tweets, state_dict = defaultdict(list), count=0):
+    for tweet in tweets:
+        if tweet.id not in tweet_ids:
+            tweet_ids.append(tweet.id)
+            search_state = re.search(", [A-Z]{2,}", tweet.user.location.strip().encode('ascii', 'ignore'))
+            print tweet.user.location.strip()
+            if search_state:
+                State = search_state.group(0)[2:]
+                if State in states_dir:
+                    text = cleanse(tweet.text.strip().encode('ascii', 'ignore'))
+                    sentiment = TextBlob(text).sentiment.polarity
+                    state_dict[State].append(sentiment)
+                    count += 1
+    return state_dict, tweet_ids, count
 
 states_dir = {
         'AK': 'Alaska',
@@ -74,54 +121,6 @@ states_dir = {
         'WV': 'West Virginia',
         'WY': 'Wyoming'
 }
-
-
-def cleanse(text):
-    """
-    Removes punctuation special characters and links.
-    """
-    text = text.lower()
-    nonalpha = re.compile('[' + string.punctuation + '0-9\\r\\t\\n' + ']')
-    no_links = re.sub('http[\S]+|www[\S]+', ' ', text)
-    text = re.sub(nonalpha, ' ', no_links)
-    text = re.sub('[ ]+', ' ', text)
-
-    return text
-
-
-def get_tweets(search_term, max_tweets):
-    calls = 0
-    tweets = api.search(q=search_term, lang='en', count=100, geocode="38.134557,-96.328125,2508km")
-    calls += 1
-    tweet_ids = [tweet.id for tweet in tweets]
-    state_dict,tweet_ids, count = tweet_state_sentiment(tweet_ids, tweets)
-    min_id = min(tweet_ids)
-
-    while count < max_tweets:
-        tweets = api.search(q=search_term, lang='en', count=100, max_id=min_id-1, geocode="38.134557,-96.328125,2508km")
-        calls += 1
-        # Grabbing Information from tweets
-        state_dict, tweet_ids, count = tweet_state_sentiment(tweet_ids, tweets, state_dict, count)
-        print 'Tweets: %d, Tweet IDs: %d, Queries: %d' % (count, len(tweet_ids), calls)
-        min_id = min(tweet_ids)
-
-    return state_dict
-
-
-def tweet_state_sentiment(tweet_ids, tweets, state_dict = defaultdict(list), count=0):
-    for tweet in tweets:
-        if tweet.id not in tweet_ids:
-            tweet_ids.append(tweet.id)
-            search_state = re.search(", [A-Z]{2,}", tweet.user.location.strip().encode('ascii', 'ignore'))
-            print tweet.user.location.strip()
-            if search_state:
-                State = search_state.group(0)[2:]
-                if State in states_dir:
-                    text = cleanse(tweet.text.strip().encode('ascii', 'ignore'))
-                    sentiment = TextBlob(text).sentiment.polarity
-                    state_dict[State].append(sentiment)
-                    count += 1
-    return state_dict, tweet_ids, count
 
 
 if __name__ == '__main__':
