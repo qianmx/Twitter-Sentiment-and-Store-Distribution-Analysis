@@ -10,4 +10,4 @@ This framework can help companies understand people’s feeling about the brand,
 
 ![sentimentscore](https://cloud.githubusercontent.com/assets/19809011/19506237/aa28e37a-957e-11e6-919f-a096906367a1.png)
 
-![storenumber](https://cloud.githubusercontent.com/assets/19809011/19506271/e7779816-957e-11e6-8e37-91cc8959e949.png)
+![newplot](https://cloud.githubusercontent.com/assets/19809011/19508256/0f25a336-958d-11e6-9378-3bff7623e2d4.png)
