@@ -8,6 +8,6 @@
 
 This framework can help companies understand people’s feeling about the brand, determine their expansion strategy across the US, as well as assess their current store distribution. I used Nike as an example in the code and analyzed its store distribution strategy. However, it can be customized to any other brands/companies.
 
-![sentimentscore](https://cloud.githubusercontent.com/assets/19809011/19506237/aa28e37a-957e-11e6-919f-a096906367a1.png)
+![us_map 4](https://cloud.githubusercontent.com/assets/19809011/19545786/17e35336-963e-11e6-9091-77289bf26a38.png)
 
 ![newplot](https://cloud.githubusercontent.com/assets/19809011/19508256/0f25a336-958d-11e6-9378-3bff7623e2d4.png)
